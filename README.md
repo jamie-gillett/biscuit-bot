@@ -1,2 +1,2 @@
-# biscuit-bot
+# biscuit bot
 bot for cookie clicker
