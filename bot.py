@@ -30,8 +30,15 @@ class AutoClicker(Bot):
             if self.active:
                 pyautogui.click()
 
+class BikiBot(Bot):
+    def start(self):
+        self.keyboard.start()
+        while self.running:
+            if self.active:
+                pyautogui.click(x=290,y=450)
+
 if __name__ == "__main__":
-    bot = AutoClicker()
+    bot = BikiBot()
     bot.start()
 
 
