@@ -1,7 +1,7 @@
 import pyautogui
 from pynput.keyboard import Listener, KeyCode
 
-pyautogui.PAUSE = 0.01
+pyautogui.PAUSE = 0.001
 
 class Bot:
     def __init__(self) -> None:
@@ -14,8 +14,7 @@ class Bot:
     def start(self):
         self.keyboard.start()
         while self.running:
-            if self.active:
-                pyautogui.click()
+            continue
 
     def key_press(self, key):
         if key == self.kill_switch:
@@ -24,9 +23,15 @@ class Bot:
         if key == self.toggle_key:
             self.active = not self.active
 
+class AutoClicker(Bot):
+    def start(self):
+        self.keyboard.start()
+        while self.running:
+            if self.active:
+                pyautogui.click()
 
 if __name__ == "__main__":
-    bot = Bot()
+    bot = AutoClicker()
     bot.start()
 
 
