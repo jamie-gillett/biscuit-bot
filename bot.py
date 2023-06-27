@@ -1,6 +1,7 @@
 import pyautogui
 from pynput.keyboard import Listener, KeyCode
 from threading import Thread
+from PIL import Image
 
 pyautogui.PAUSE = 0.001
 
@@ -34,7 +35,7 @@ class Bot:
 class Upgrader(Thread):
     def __init__(self) -> None:
         super().__init__(daemon=True)
-        self.target = 'images/upgrade_border.png'
+        self.target = Image.open('images/upgrade_border.png')
         self.active = False
 
     def toggle_active(self) -> None:
@@ -52,7 +53,8 @@ class Upgrader(Thread):
 class Builder(Thread):
     def __init__(self) -> None:
         super().__init__(daemon=True)
-        self.images = ['shipment.png', 'wizard.png', 'temple.png', 'bank.png', 'factory.png', 'mine.png', 'farm.png', 'grandma.png', 'cursor.png']
+        image_files = ['shipment.png', 'wizard.png', 'temple.png', 'bank.png', 'factory.png', 'mine.png', 'farm.png', 'grandma.png', 'cursor.png']
+        self.images = [Image.open('images/buildings/' + file) for file in image_files]
         self.active = False
     
     def toggle_active(self) -> None:
@@ -62,9 +64,8 @@ class Builder(Thread):
         while True:
             if self.active:
                 for image in self.images:
-                    path = 'images/buildings/' + image
                     try:
-                        x,y = pyautogui.locateCenterOnScreen(path, grayscale=True, region=(1600, 40, 64, 950))
+                        x,y = pyautogui.locateCenterOnScreen(image, grayscale=True, region=(1600, 40, 64, 950))
                         pyautogui.click(x,y)
                         break
                     except:
