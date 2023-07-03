@@ -93,7 +93,8 @@ class BikiBot(Bot):
     def __init__(self) -> None:
         super().__init__()
         # self.components = [Upgrader(), Builder(), Gold_Digger()]
-        self.components = [Upgrader(), Builder()]
+        # self.components = [Upgrader(), Builder()]
+        self.components = [Upgrader()]
 
     def start(self):
         self.keyboard.start()
