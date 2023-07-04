@@ -3,10 +3,11 @@ from pynput.keyboard import Listener, KeyCode
 from threading import Thread
 from PIL import Image
 
-pyautogui.PAUSE = 0.001
+
 
 class Bot:
     def __init__(self) -> None:
+        pyautogui.PAUSE = 0.001
         self.running = True
         self.kill_switch = KeyCode(char=']')
         self.active = False
