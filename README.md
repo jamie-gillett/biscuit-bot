@@ -15,5 +15,5 @@ Currently the bot will:
 ## Future Directions
 Possible future directions:
 - Improve builder component
-- Add a golden cookie component
+- Get golden cookie component working
 - Add addition component classes
