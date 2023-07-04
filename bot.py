@@ -1,4 +1,3 @@
-import pyautogui
 from pynput.keyboard import Listener, Key
 from multiprocessing import Process
 
@@ -34,7 +33,6 @@ class ProcessComponent():
 
 class Bot:
     def __init__(self) -> None:
-        pyautogui.PAUSE = 0.001
         self.components : dict[str, list[ProcessComponent]] = {}
         self.kill_switch = Key.esc
 
@@ -53,8 +51,3 @@ class Bot:
         if component.toggle_key not in self.components:
             self.components[component.toggle_key] = []
         self.components[component.toggle_key].append(component)
-
-# if __name__ == "__main__":
-#     test_bot = Bot()
-#     test_bot.add_component()
-#     test_bot.start()
