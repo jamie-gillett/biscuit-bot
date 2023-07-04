@@ -3,8 +3,11 @@ from pynput.keyboard import Listener, Key
 from multiprocessing import Process
 
 class ProcessComponent():
-    def __init__(self, toggle_key='['):
+    def __init__(self, toggle_key='[', target=None, args=[], kwargs={}):
         self.toggle_key = toggle_key
+        self.target = target
+        self.args = args
+        self.kwargs = kwargs
         self.process = None
 
     def toggle_activity(self):
@@ -16,7 +19,18 @@ class ProcessComponent():
             self.process = None
 
     def activity(self):
-        print("No activity designated for BotComponent")
+        if not self.target:
+            print("No activity designated for ProcessComponent")
+            return
+        elif self.kwargs:
+            while True:
+                self.target(**self.kwargs)
+        elif self.args:
+            while True:
+                self.target(*self.args)
+        else:
+            while True:
+                self.target()
 
 class Bot:
     def __init__(self) -> None:
@@ -40,7 +54,7 @@ class Bot:
             self.components[component.toggle_key] = []
         self.components[component.toggle_key].append(component)
 
-if __name__ == "__main__":
-    test_bot = Bot()
-    test_bot.add_component( ProcessComponent() )
-    test_bot.start()
+# if __name__ == "__main__":
+#     test_bot = Bot()
+#     test_bot.add_component()
+#     test_bot.start()
