@@ -43,9 +43,12 @@ class Bot:
     def on_release(self, key: Key):
         if key == self.kill_switch:
             return False
-        if key.char in self.components:
-            for component in self.components[key.char]:
-                component.toggle_activity()
+        try:
+            if key.char in self.components:
+                for component in self.components[key.char]:
+                    component.toggle_activity()
+        except:
+            pass
 
     def add_component(self, component: ProcessComponent):
         if component.toggle_key not in self.components:
