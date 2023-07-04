@@ -2,7 +2,7 @@ import pyautogui
 from pynput.keyboard import Listener, Key
 from multiprocessing import Process
 
-class BotComponent():
+class ProcessComponent():
     def __init__(self, toggle_key='['):
         self.toggle_key = toggle_key
         self.process = None
@@ -21,7 +21,7 @@ class BotComponent():
 class Bot:
     def __init__(self) -> None:
         pyautogui.PAUSE = 0.001
-        self.components : dict[str, list[BotComponent]] = {}
+        self.components : dict[str, list[ProcessComponent]] = {}
         self.kill_switch = Key.esc
 
     def start(self) -> None:
@@ -35,12 +35,12 @@ class Bot:
             for component in self.components[key.char]:
                 component.toggle_activity()
 
-    def add_component(self, component: BotComponent):
+    def add_component(self, component: ProcessComponent):
         if component.toggle_key not in self.components:
             self.components[component.toggle_key] = []
         self.components[component.toggle_key].append(component)
 
 if __name__ == "__main__":
     test_bot = Bot()
-    test_bot.add_component( BotComponent() )
+    test_bot.add_component( ProcessComponent() )
     test_bot.start()
