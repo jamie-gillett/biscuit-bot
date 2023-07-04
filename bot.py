@@ -1,42 +1,37 @@
 import pyautogui
-# from pynput.keyboard import Listener, KeyCode
-from pynput import keyboard
-from threading import Thread
+from pynput.keyboard import Listener, Key
 from multiprocessing import Process
-# from PIL import Image
 
 class BotComponent():
     def __init__(self, toggle_key='['):
-        self.activated = False
         self.toggle_key = toggle_key
+        self.process = None
 
     def toggle_activity(self):
-        self.activated = not self.activated
-        if self.activated:
-            Thread(target=self.active, daemon=True).start()
+        if not self.process:
+            self.process = Process(target=self.activity, daemon=True)
+            self.process.start()
+        else:
+            self.process.terminate()
+            self.process = None
 
-    def active(self):
-        i = 1
-        while self.activated:
-            print(i, end='\r')
-            i += 1
+    def activity(self):
+        print("No activity designated for BotComponent")
 
 class Bot:
     def __init__(self) -> None:
         pyautogui.PAUSE = 0.001
         self.components : dict[str, list[BotComponent]] = {}
-        self.kill_switch = keyboard.Key.esc
+        self.kill_switch = Key.esc
 
     def start(self) -> None:
-        with keyboard.Listener(on_release=self.on_release) as listener:
+        with Listener(on_release=self.on_release) as listener:
             listener.join()
 
-    def on_release(self, key: keyboard.Key):
+    def on_release(self, key: Key):
         if key == self.kill_switch:
             return False
-        print('{0} released'.format(key))
         if key.char in self.components:
-            print("yup")
             for component in self.components[key.char]:
                 component.toggle_activity()
 
@@ -47,7 +42,5 @@ class Bot:
 
 if __name__ == "__main__":
     test_bot = Bot()
-    test_bot.add_component(
-        BotComponent('[')
-    )
+    test_bot.add_component( BotComponent() )
     test_bot.start()
